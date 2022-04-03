@@ -1,0 +1,29 @@
+version: '3'
+services:
+    db: 
+        image: mysql:5.7
+        container_name: appDB
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: app
+        ports:
+            - "3307:3306"
+        
+    app:
+        build: .
+        command: bash -c "rm -f tmp/pids/server.pid && bundle exec sh ./db_setup.sh && rails s -p 3000 -b '0.0.0.0'"
+        volumes:
+            - .:/app
+        ports: 
+            - "3001:3000"
+        depends_on:
+            - db
+        links:
+            - db
+        environment:
+            DB_USER: root
+            DB_NAME: app
+            DB_PASSWORD: password
+            DB_HOST: db
+        restart: always
