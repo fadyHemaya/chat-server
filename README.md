@@ -122,7 +122,6 @@ Creating a chat
 `POST /api/v1/applications/{token}/chats`
 
     curl --location --request POST 'http://localhost:3000/api/v1/applications/7p9X27Uq1GtLSzm9F58KVg1o/chats' \
-    --data-raw ''
 
 ### Response
 
@@ -166,7 +165,6 @@ Get chats of specific app
 `GET /api/v1/applications/{token}/chats/{number}`
 
     curl --location --request GET 'http://localhost:3000/api/v1/applications/7p9X27Uq1GtLSzm9F58KVg1o/chats' \
-    --data-raw ''
 
 ### Response
 
@@ -217,7 +215,6 @@ Get list of messages
 `GET /api/v1/messages`
 
     curl --location --request GET 'http://localhost:3000/api/v1/messages' \
-    --data-raw ''
 
 ### Response
 
