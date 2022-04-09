@@ -212,9 +212,10 @@ RSpec.describe "MessagesV1s", type: :request do
 			post "/api/v1/applications/#{App.first.token}/chats/#{Chat.first.number}/messages", params: {message:{body:"hello, hi Fady"}}
 			post "/api/v1/applications/#{App.first.token}/chats/#{Chat.first.number}/messages", params: {message:{body:"hi there"}}
 			post "/api/v1/applications/#{App.first.token}/chats/#{Chat.first.number}/messages", params: {message:{body:"random text"}}
+      MessagesCreatorJob.drain 
+      sleep 2
     end
     it 'should return all messages that partially match the query' do
-      MessagesCreatorJob.drain 
       get  "/api/v1/applications/#{App.first.token}/chats/#{Chat.first.number}/messages/hi"
       expect(response.status).to eq 200
       expect(JSON.parse(response.body)['data'].count).to eq 2
