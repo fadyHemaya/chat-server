@@ -36,9 +36,14 @@ gem "bootsnap", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
 
-group :development, :test do
+group :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'rspec-rails'
+  gem 'database_cleaner'
+  gem 'simplecov', require: false
+  gem 'rspec-sidekiq'
+  gem "mock_redis"
 end
 
 group :development do
@@ -46,3 +51,9 @@ group :development do
   # gem "spring"
 end
 
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
+gem 'sidekiq-unique-jobs'
+gem "sidekiq-cron"
+gem 'elasticsearch-model'
+gem 'redis-namespace'
