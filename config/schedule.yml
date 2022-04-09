@@ -1,0 +1,7 @@
+update_chat_counts_job:
+   cron: "*/5 * * * *"
+   class: "UpdateChatsCount"
+
+update_messages_counts_job:
+   cron: "*/5 * * * *"
+   class: "UpdateMessagesCount"
