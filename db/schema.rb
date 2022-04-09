@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_03_132542) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_04_140537) do
   create_table "apps", charset: "latin1", force: :cascade do |t|
     t.string "name"
     t.string "token"
@@ -20,4 +20,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_03_132542) do
     t.index ["token"], name: "index_apps_on_token", unique: true
   end
 
+  create_table "chats", charset: "latin1", force: :cascade do |t|
+    t.string "app_token", null: false
+    t.integer "number"
+    t.integer "messages_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_token"], name: "index_chats_on_app_token"
+    t.index ["number", "app_token"], name: "index_chats_on_number_and_app_token", unique: true
+  end
+
+  create_table "messages", charset: "latin1", force: :cascade do |t|
+    t.bigint "chat_id", null: false
+    t.integer "number"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["number", "chat_id"], name: "index_messages_on_number_and_chat_id", unique: true
+  end
+
+  add_foreign_key "chats", "apps", column: "app_token", primary_key: "token"
+  add_foreign_key "messages", "chats"
 end
