@@ -1,6 +1,6 @@
 # chat-server
 
-Chat server is a ruby on rails API server that has the ability to create, update, get applications and create chats and messages for them using some cool technologies.
+Chat server is a Ruby on Rails API server that has the ability to create, update, get applications and create chats and messages for them using some cool technologies `Ruby on Rails` `MySQL` `Redis` `Sidekiq` `Elasticsearch`.
 
 ## Running the app
 
