@@ -57,7 +57,7 @@ module Api
                 if chat
                     messages = Message.where(chat_id: chat.id)
                     messages ||= []
-                    return render json: {data:messages}.to_json(:except => [:id, :created_at, :updated_at]),status: :ok
+                    return render json: {data:messages}.to_json(:except => [:id, :chat_id, :created_at, :updated_at]),status: :ok
                 else
                     return render json: {data:"No Chat Found"},status:  :not_found
                 end
