@@ -18,6 +18,8 @@ module Api
                     if redis.exists(app.token+"#chats_count") || redis.exists(app.token+"#chats_count") == 1
                         chat.number = redis.incr(app.token+"#chats_count")
                         redis.set(app.token+"#chats_count",chat.number)
+                        
+                        # To be updated by Sidekiq CRON job
                         redis.sadd("updated_chat_counts",chat.app_token)
                     end
 
