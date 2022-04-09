@@ -13,3 +13,4 @@ development:
 
 test:
   <<: *default
+  database: test
