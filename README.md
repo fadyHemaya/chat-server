@@ -258,9 +258,15 @@ Search messages with specific query
 
 ### Request
 
-`GET /api/v1/applications/{token}/chats/{number}/messages/{query}`
+`POST /api/v1/applications/{token}/chats/{number}/messages/search`
 
-    curl --location --request GET 'http://localhost:3000/api/v1/applications/7p9X27Uq1GtLSzm9F58KVg1o/chats/1/messages/hey' \
+    curl --location --request POST 'http://localhost:3000/api/v1/applications/7p9X27Uq1GtLSzm9F58KVg1o/chats/1/messages/search' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "message":{
+            "body":"hey"
+        }
+    }''
 
 ### Response
 
