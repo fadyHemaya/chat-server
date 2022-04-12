@@ -17,7 +17,7 @@ Rails.application.routes.draw do
      get '/messages', to: 'message#index'
      post '/applications/:token/chats/:number/messages', to: 'message#create'
      get '/applications/:token/chats/:number/messages', to: 'message#show'
-     get '/applications/:token/chats/:number/messages/:query', to: 'message#search'
+     post '/applications/:token/chats/:number/messages/search', to: 'message#search'
    end
  end
  match '*unmatched', to: 'application#not_found', via: :all
