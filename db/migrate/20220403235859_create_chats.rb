@@ -7,6 +7,7 @@ class CreateChats < ActiveRecord::Migration[7.0]
       t.timestamps
     end
     rename_column :chats, :app_id, :app_token
-    add_index :chats, [:number, :app_token], unique: true
+    add_index :chats, [:app_token, :number], unique: true
+    remove_index :chats, :app_token
   end
 end

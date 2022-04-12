@@ -7,6 +7,7 @@ class CreateMessages < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :messages, [:number, :chat_id], unique: true
+    add_index :messages, [:chat_id, :number], unique: true
+    remove_index :messages, :chat_id if index_exists?(:messages, :chat_id)
   end
 end

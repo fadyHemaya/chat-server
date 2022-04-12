@@ -26,8 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_04_140537) do
     t.integer "messages_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["app_token"], name: "index_chats_on_app_token"
-    t.index ["number", "app_token"], name: "index_chats_on_number_and_app_token", unique: true
+    t.index ["app_token", "number"], name: "index_chats_on_app_token_and_number", unique: true
   end
 
   create_table "messages", charset: "latin1", force: :cascade do |t|
@@ -36,8 +35,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_04_140537) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["chat_id"], name: "index_messages_on_chat_id"
-    t.index ["number", "chat_id"], name: "index_messages_on_number_and_chat_id", unique: true
+    t.index ["chat_id", "number"], name: "index_messages_on_chat_id_and_number", unique: true
   end
 
   add_foreign_key "chats", "apps", column: "app_token", primary_key: "token"
