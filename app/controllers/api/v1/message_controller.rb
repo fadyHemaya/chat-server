@@ -30,6 +30,10 @@ module Api
             end
             
             def search
+                if message_params[:body].nil? || message_params[:body].empty?
+                    return render json: { error: "Invalid Message Body" }, status: :unprocessable_entity
+                end
+
                 chat = Chat.find_by(app_token: params[:token], number: params[:number])
                 if chat.nil?
                     return render json: {data:"No Chat Found"},status:  :not_found
@@ -40,7 +44,8 @@ module Api
                     return render json: {data:[]},status:  :ok
                 end
 
-                messages = Message.search(params[:query])
+                message_params[:body] = sanitize_string(message_params[:body])
+                messages = Message.search(message_params[:body])
                 if messages
                     filtered_messages = messages.where(chat_id: chat.id)
                     if filtered_messages
@@ -59,6 +64,18 @@ module Api
                 else
                     return render json: {data:"No Chat Found"},status:  :not_found
                 end
+            end
+
+            def sanitize_string(str)
+                # Escape special characters
+                escaped_characters = Regexp.escape('\\/+-&|!(){}[]^~*?:')
+                str = str.gsub(/([#{escaped_characters}])/, '\\\\\1')
+              
+                # Escape odd quotes
+                quote_count = str.count '"'
+                str = str.gsub(/(.*)"(.*)/, '\1\"\3') if quote_count % 2 == 1
+              
+                str
             end
             
             private
