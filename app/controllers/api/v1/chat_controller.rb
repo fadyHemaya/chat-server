@@ -12,15 +12,12 @@ module Api
                     redis = Redis.new(host: "redis")
                     chat = Chat.new(app_token: params[:app_token])
                     chat.messages_count = 0
-                    chat.number = app.chats_count + 1  
 
                     # Automically get and update the chats count to handle race condition
-                    if redis.exists(app.token+"#chats_count") || redis.exists(app.token+"#chats_count") == 1
-                        chat.number = redis.incr(app.token+"#chats_count")
-                        
-                        # To be updated by Sidekiq CRON job
-                        redis.sadd("updated_chat_counts",chat.app_token)
-                    end
+                    chat.number = redis.incr(app.token+"#chats_count")
+                    
+                    # To be updated by Sidekiq CRON job
+                    redis.sadd("updated_chat_counts",chat.app_token)
 
                     ChatsCreatorJob.perform_async(chat.to_json)
                     return render json: {data:chat}.to_json(:except => [:id, :created_at, :updated_at]),status: :ok
