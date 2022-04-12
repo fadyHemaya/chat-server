@@ -8,6 +8,6 @@ class CreateChats < ActiveRecord::Migration[7.0]
     end
     rename_column :chats, :app_id, :app_token
     add_index :chats, [:app_token, :number], unique: true
-    remove_index :chats, :app_token
+    remove_index :chats, :app_token if index_exists?(:chats, :app_token)
   end
 end
