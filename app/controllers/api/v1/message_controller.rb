@@ -22,7 +22,6 @@ module Api
                 # Automically get and update the messages count to handle race condition
                 if redis.exists(chat.id.to_s+"#messages_count") || redis.exists(chat.id.to_s+"#messages_count") == 1
                     message.number = redis.incr(chat.id.to_s+"#messages_count")
-                    redis.set(message.chat_id.to_s+"#messages_count",message.number) 
                     
                     # To be updated by Sidekiq CRON job
                     redis.sadd("updated_messages_counts",chat.id)      
