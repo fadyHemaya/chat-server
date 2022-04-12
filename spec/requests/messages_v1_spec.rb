@@ -162,15 +162,14 @@ RSpec.describe "MessagesV1s", type: :request do
   
   let!(:token) { "a1234" }
   let!(:chat_number) { 1 }
-  let!(:query) { "hi" }
-  let!(:url) { "/api/v1/applications/#{token}/chats/#{chat_number}/messages/#{:query}" }
+  let!(:url) { "/api/v1/applications/#{token}/chats/#{chat_number}/messages/search" }
   context 'When no messages are created' do 
     before do
       App.create(name: "App1", token:"a1234")
       Chat.create(app_token: "a1234", number:1)
     end	
     it 'should return empty list' do
-      get url
+      post url, params: {message: {body: "hi"}}
       expect(response.status).to eq 200
       expect(JSON.parse(response.body)['data']).to eq []
     end
@@ -184,7 +183,7 @@ RSpec.describe "MessagesV1s", type: :request do
       Message.create(chat_id:Chat.first.id, body:"random text") 
     end
     it 'should return chat not found response' do
-      get url
+      post url, params: {message: {body: "hi" }}
       expect(response.status).to eq 404
       expect(JSON.parse(response.body)['data']).to eq "No Chat Found"
     end
@@ -198,7 +197,7 @@ RSpec.describe "MessagesV1s", type: :request do
       Message.create(chat_id:Chat.first.id, body:"random text") 
     end
     it 'should return empty list of messages' do
-      get url
+      post url, params: {message: {body: "hi" }}
       expect(response.status).to eq 200
       expect(JSON.parse(response.body)['data']).to eq []
     end
@@ -216,7 +215,7 @@ RSpec.describe "MessagesV1s", type: :request do
       sleep 2
     end
     it 'should return all messages that partially match the query' do
-      get  "/api/v1/applications/#{App.first.token}/chats/#{Chat.first.number}/messages/hi"
+      post  "/api/v1/applications/#{App.first.token}/chats/#{Chat.first.number}/messages/search", params: {message: {body: "hi"}}
       expect(response.status).to eq 200
       expect(JSON.parse(response.body)['data'].count).to eq 2
       expect(JSON.parse(response.body)['data'][0]["body"]).to eq "hi there"
